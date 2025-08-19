@@ -3380,6 +3380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AsModuleEnabled: 1
+  IsMobileAds_Initilised: 0
   AndroidAppId: ca-app-pub-7637572513025322~6528660925
   BannerId: ca-app-pub-7637572513025322/5131818774
   InterstitialId: ca-app-pub-7637572513025322/3818737102

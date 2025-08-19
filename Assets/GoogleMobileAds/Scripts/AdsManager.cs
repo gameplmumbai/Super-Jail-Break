@@ -7,12 +7,16 @@ using UnityEngine.SceneManagement;
 
 public class AdsManager : MonoBehaviour
 {
-  public bool AsModuleEnabled;
-
+  [SerializeField]
+  bool AsModuleEnabled;
+  [SerializeField]
+  bool IsMobileAds_Initilised;
   public string AndroidAppId, BannerId, InterstitialId, RewardedId, RewardedInterstitialId, NativeOverlayId, AppOpenId;
+
 
   [Range(3, 30)]
   public float AdMobObserverTickRate;
+
 
   [Header("Opt For AdMob Types")]
   public bool Opt_BannerAd;
@@ -160,15 +164,17 @@ public class AdsManager : MonoBehaviour
       // access UnityEngine objects after initialization,
       // use MobileAdsEventExecsutor.ExecuteInUpdate(). For more information, see:
       // https://developers.google.com/admob/unity/global-settings#raise_ad_events_on_the_unity_main_thread
-      InvokeRepeating(nameof(AdView_Observer), 1, AdMobObserverTickRate);
-      Apply_AutoPopup_Ads();
-    });
+      IsMobileAds_Initilised = true;
 
+    });
+    InvokeRepeating(nameof(AdView_Observer), 1, AdMobObserverTickRate);
+    Invoke(nameof(Apply_AutoPopup_Ads), AdMobObserverTickRate);
   }
 
 
   void AdView_Observer()
   {
+    if (!IsMobileAds_Initilised) { return; }
     if (Opt_BannerAd && BannerViewController._bannerView == null)
     {
       BannerViewController.LoadAd();
@@ -198,9 +204,9 @@ public class AdsManager : MonoBehaviour
 
   public void Apply_AutoPopup_Ads()
   {
+    if (!IsMobileAds_Initilised) { return; }
     if (Opt_InterstitialAd && Opt_AutoPopup_InterstitialAd)
     {
-      Debug.LogWarning("Apply_AutoPopup_Ads Opt_InterstitialAd");
       InvokeRepeating(nameof(ShowInterstitialAd), AutoPopup_InterstitialAd_TimeIn, AutoPopup_InterstitialAd_TimeIn);
     }
     if (Opt_RewardedAd && Opt_AutoPopup_RewardedAd)
@@ -232,6 +238,8 @@ public class AdsManager : MonoBehaviour
   #region Interstitial Section
   public void ShowInterstitialAd()
   {
+    if (!IsMobileAds_Initilised) { return; }
+
     Debug.Log("ShowInterstitialAd");
     if (!Opt_InterstitialAd)
     {
@@ -253,6 +261,7 @@ public class AdsManager : MonoBehaviour
   }
   public void ShowInterstitialAd_callback(Action<bool> callback)
   {
+    if (!IsMobileAds_Initilised) { return; }
     Debug.Log("ShowInterstitialAd");
     if (!Opt_InterstitialAd)
     {
@@ -280,7 +289,7 @@ public class AdsManager : MonoBehaviour
 
   public void ShowRewardedAd()
   {
-
+    if (!IsMobileAds_Initilised) { return; }
     Debug.Log("ShowRewardedAd");
     if (!Opt_RewardedAd)
     {
@@ -303,6 +312,8 @@ public class AdsManager : MonoBehaviour
 
   public void ShowRewardedAd_callback(Action<bool> callback)
   {
+    if (!IsMobileAds_Initilised) { return; }
+
     Debug.Log("ShowRewardedAd");
     if (!Opt_RewardedAd)
     {
@@ -330,6 +341,9 @@ public class AdsManager : MonoBehaviour
 
   public void ShowRewardedInterstitialAd()
   {
+    if (!IsMobileAds_Initilised) { return; }
+
+
     Debug.Log("ShowRewardedInterstitialAd");
     if (!Opt_RewardedInterstitialAd)
     {
@@ -351,6 +365,8 @@ public class AdsManager : MonoBehaviour
 
   public void ShowRewardedInterstitialAd_callback(Action<bool> callback)
   {
+    if (!IsMobileAds_Initilised) { return; }
+
     Debug.Log("ShowRewardedInterstitialAd");
     if (!Opt_RewardedInterstitialAd)
     {
@@ -376,6 +392,7 @@ public class AdsManager : MonoBehaviour
 
   public void LoadNativeOverlayAd()
   {
+    if (!IsMobileAds_Initilised) { return; }
 
     Debug.Log("ShowNativeOverlayAd");
     if (!Opt_NativeOverlayAd)
@@ -401,6 +418,7 @@ public class AdsManager : MonoBehaviour
 
   public void LoadAppOpenAd()
   {
+    if (!IsMobileAds_Initilised) { return; }
 
     Debug.Log("ShowAppOpenAd");
     if (!Opt_AppOpenAd)
