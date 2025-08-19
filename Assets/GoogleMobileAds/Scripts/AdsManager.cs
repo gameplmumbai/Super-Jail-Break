@@ -11,7 +11,7 @@ public class AdsManager : MonoBehaviour
 
   public string AndroidAppId, BannerId, InterstitialId, RewardedId, RewardedInterstitialId, NativeOverlayId, AppOpenId;
 
-
+  [Range(3, 30)]
   public float AdMobObserverTickRate;
 
   [Header("Opt For AdMob Types")]
@@ -19,6 +19,7 @@ public class AdsManager : MonoBehaviour
   public bool Opt_InterstitialAd;
   public bool Opt_RewardedAd;
   public bool Opt_RewardedInterstitialAd;
+  public bool Opt_NativeOverlayAd;
   public bool Opt_AppOpenAd;
 
 
@@ -27,18 +28,20 @@ public class AdsManager : MonoBehaviour
   public bool Opt_AutoPopup_RewardedAd;
   public bool Opt_AutoPopup_RewardedInterstitialAd;
 
-
+  /*
   [Header("First Popup TimeIn")]
   public float FirstPopup_InterstitialAd_TimeIn;
   public float FirstPopup_RewardedAd_TimeIn;
   public float FirstPopup_RewardedInterstitialAd_TimeIn;
+  */
 
-
-  [Header("Auto Popup TimeIn")]
+  [Header("Auto Popup TimeIn in seconds")]
+  [Range(5, 900)]
   public float AutoPopup_InterstitialAd_TimeIn;
+  [Range(5, 900)]
   public float AutoPopup_RewardedAd_TimeIn;
+  [Range(5, 900)]
   public float AutoPopup_RewardedInterstitialAd_TimeIn;
-
 
   private NetworkReachability _lastReachability;
 
@@ -58,13 +61,8 @@ public class AdsManager : MonoBehaviour
 
   void Init_Popup_TimeIns()
   {
-    FirstPopup_InterstitialAd_TimeIn = (FirstPopup_InterstitialAd_TimeIn <= 0) ? 10 : FirstPopup_InterstitialAd_TimeIn;
-    FirstPopup_RewardedAd_TimeIn = (FirstPopup_RewardedAd_TimeIn <= 0) ? 10 : FirstPopup_RewardedAd_TimeIn;
-    FirstPopup_RewardedInterstitialAd_TimeIn = (FirstPopup_RewardedInterstitialAd_TimeIn <= 0) ? 10 : FirstPopup_RewardedInterstitialAd_TimeIn;
 
-    AutoPopup_InterstitialAd_TimeIn = (AutoPopup_InterstitialAd_TimeIn <= 0) ? 30 : AutoPopup_InterstitialAd_TimeIn;
-    AutoPopup_RewardedAd_TimeIn = (AutoPopup_RewardedAd_TimeIn <= 0) ? 30 : AutoPopup_RewardedAd_TimeIn;
-    AutoPopup_RewardedInterstitialAd_TimeIn = (AutoPopup_RewardedInterstitialAd_TimeIn <= 0) ? 30 : AutoPopup_RewardedInterstitialAd_TimeIn;
+    AdMobObserverTickRate = (AdMobObserverTickRate <= 0) ? 3 : AdMobObserverTickRate;
 
   }
 
@@ -146,6 +144,8 @@ public class AdsManager : MonoBehaviour
   {
     if (string.IsNullOrEmpty(AndroidAppId))
     {
+      Debug.LogWarning($"AdMobAndroidAppId is null");
+      return;
     }
 
     MobileAds.Initialize((InitializationStatus initstatus) =>
@@ -174,22 +174,22 @@ public class AdsManager : MonoBehaviour
       BannerViewController.LoadAd();
     }
 
-    if (Opt_InterstitialAd && !IsInterstitialAdAvailable)
+    if (Opt_InterstitialAd && InterstitialAdController._interstitialAd == null)
     {
       InterstitialAdController.LoadAd();
     }
 
-    if (Opt_RewardedAd && !IsRewardedAdVideoAvailable)
+    if (Opt_RewardedAd && RewardedAdController._rewardedAd == null)
     {
       RewardedAdController.LoadAd();
     }
 
-    if (Opt_RewardedInterstitialAd && !IsRewardedInterstitialAdVideoAvailable)
+    if (Opt_RewardedInterstitialAd && RewardedInterstitialAdController._rewardedInterstitialAd == null)
     {
       RewardedInterstitialAdController.LoadAd();
     }
 
-    if (Opt_AppOpenAd && !IsAppOpenAvailable)
+    if (Opt_AppOpenAd && AppOpenAdController._appOpenAd == null)
     {
       AppOpenAdController.LoadAd();
     }
@@ -201,15 +201,15 @@ public class AdsManager : MonoBehaviour
     if (Opt_InterstitialAd && Opt_AutoPopup_InterstitialAd)
     {
       Debug.LogWarning("Apply_AutoPopup_Ads Opt_InterstitialAd");
-      InvokeRepeating(nameof(ShowInterstitialAd), FirstPopup_InterstitialAd_TimeIn, AutoPopup_InterstitialAd_TimeIn);
+      InvokeRepeating(nameof(ShowInterstitialAd), AutoPopup_InterstitialAd_TimeIn, AutoPopup_InterstitialAd_TimeIn);
     }
     if (Opt_RewardedAd && Opt_AutoPopup_RewardedAd)
     {
-      InvokeRepeating(nameof(ShowRewardedAd), FirstPopup_RewardedAd_TimeIn, AutoPopup_RewardedAd_TimeIn);
+      InvokeRepeating(nameof(ShowRewardedAd), AutoPopup_RewardedAd_TimeIn, AutoPopup_RewardedAd_TimeIn);
     }
     if (Opt_RewardedInterstitialAd && Opt_AutoPopup_RewardedInterstitialAd)
     {
-      InvokeRepeating(nameof(ShowRewardedInterstitialAd), FirstPopup_RewardedInterstitialAd_TimeIn, AutoPopup_RewardedInterstitialAd_TimeIn);
+      InvokeRepeating(nameof(ShowRewardedInterstitialAd), AutoPopup_RewardedInterstitialAd_TimeIn, AutoPopup_RewardedInterstitialAd_TimeIn);
     }
   }
 
@@ -230,16 +230,45 @@ public class AdsManager : MonoBehaviour
   #endregion
 
   #region Interstitial Section
-  public bool IsInterstitialAdAvailable { get { return InterstitialAdController.IsInterstitialAdAvailable; } }
   public void ShowInterstitialAd()
   {
     Debug.Log("ShowInterstitialAd");
-    if (!Opt_InterstitialAd && !IsInterstitialAdAvailable) { return; }
+    if (!Opt_InterstitialAd)
+    {
+      Debug.Log($"Not opted for InterstitialAds");
+      return;
+    }
+    if (InterstitialAdController._interstitialAd == null)
+    {
+      Debug.Log($"InterstitialAd is null");
+      return;
+    }
+    if (!InterstitialAdController._interstitialAd.CanShowAd())
+    {
+      Debug.Log($"InterstitialAd is not ready to show this time retry again");
+      return;
+    }
     InterstitialAdController.ShowAd();
+
   }
   public void ShowInterstitialAd_callback(Action<bool> callback)
   {
-    if (!Opt_InterstitialAd && !IsInterstitialAdAvailable) { return; }
+    Debug.Log("ShowInterstitialAd");
+    if (!Opt_InterstitialAd)
+    {
+      Debug.Log($"Not opted for InterstitialAds");
+      return;
+    }
+    if (InterstitialAdController._interstitialAd != null)
+    {
+      Debug.Log($"InterstitialAd is null");
+      return;
+    }
+    if (InterstitialAdController._interstitialAd.CanShowAd())
+    {
+      Debug.Log($"InterstitialAd is not ready to show this time retry again");
+      return;
+    }
     InterstitialAdController.ShowAd(callback);
   }
 
@@ -251,13 +280,45 @@ public class AdsManager : MonoBehaviour
 
   public void ShowRewardedAd()
   {
-    if (!Opt_RewardedAd && !IsRewardedAdVideoAvailable) { return; }
+
+    Debug.Log("ShowRewardedAd");
+    if (!Opt_RewardedAd)
+    {
+      Debug.Log($"Not opted for RewardedAds");
+      return;
+    }
+    if (RewardedAdController._rewardedAd == null)
+    {
+      Debug.Log($"RewardedAd is null");
+      return;
+    }
+    if (!RewardedAdController._rewardedAd.CanShowAd())
+    {
+      Debug.Log($"RewardedAd is not ready to show this time retry again");
+      return;
+    }
     RewardedAdController.ShowAd();
+
   }
 
   public void ShowRewardedAd_callback(Action<bool> callback)
   {
-    if (!Opt_RewardedAd && !IsRewardedAdVideoAvailable) { return; }
+    Debug.Log("ShowRewardedAd");
+    if (!Opt_RewardedAd)
+    {
+      Debug.Log($"Not opted for RewardedAds");
+      return;
+    }
+    if (RewardedAdController._rewardedAd == null)
+    {
+      Debug.Log($"RewardedAd is null");
+      return;
+    }
+    if (!RewardedAdController._rewardedAd.CanShowAd())
+    {
+      Debug.Log($"RewardedAd is not ready to show this time retry again");
+      return;
+    }
     RewardedAdController.ShowAd_Call(callback);
   }
 
@@ -265,31 +326,99 @@ public class AdsManager : MonoBehaviour
 
   #region RewardedInterstitial Section
 
-  public bool IsRewardedInterstitialAdVideoAvailable { get { return RewardedInterstitialAdController.IsRewardedInterstitialAdAvailable; } }
+  //public bool IsRewardedInterstitialAdVideoAvailable { get { return RewardedInterstitialAdController.IsRewardedInterstitialAdAvailable; } }
 
   public void ShowRewardedInterstitialAd()
   {
-    if (!Opt_RewardedInterstitialAd && !IsRewardedInterstitialAdVideoAvailable) { return; }
+    Debug.Log("ShowRewardedInterstitialAd");
+    if (!Opt_RewardedInterstitialAd)
+    {
+      Debug.Log($"Not opted for RewardedInterstitialAds");
+      return;
+    }
+    if (RewardedInterstitialAdController._rewardedInterstitialAd == null)
+    {
+      Debug.Log($"RewardedInterstitialAd is null");
+      return;
+    }
+    if (!RewardedInterstitialAdController._rewardedInterstitialAd.CanShowAd())
+    {
+      Debug.Log($"RewardedInterstitialAd is not ready to show this time retry again");
+      return;
+    }
     RewardedInterstitialAdController.ShowAd();
   }
 
   public void ShowRewardedInterstitialAd_callback(Action<bool> callback)
   {
-    if (!Opt_RewardedInterstitialAd && !IsRewardedInterstitialAdVideoAvailable) { return; }
+    Debug.Log("ShowRewardedInterstitialAd");
+    if (!Opt_RewardedInterstitialAd)
+    {
+      Debug.Log($"Not opted for RewardedInterstitialAds");
+      return;
+    }
+    if (RewardedInterstitialAdController._rewardedInterstitialAd == null)
+    {
+      Debug.Log($"RewardedInterstitialAd is null");
+      return;
+    }
+    if (!RewardedInterstitialAdController._rewardedInterstitialAd.CanShowAd())
+    {
+      Debug.Log($"RewardedInterstitialAd is not ready to show this time retry again");
+      return;
+    }
     RewardedInterstitialAdController.ShowAd(callback);
   }
   #endregion
 
-  #region App Open Section
+  #region AdMob NativeAdController Section
 
-  public bool IsAppOpenAvailable { get { return AppOpenAdController.IsAppOpenAdAvailable; } }
 
-  public void LoadAppOpenAdAd()
+  public void LoadNativeOverlayAd()
   {
-    if (!Opt_AppOpenAd && !IsAppOpenAvailable)
+
+    Debug.Log("ShowNativeOverlayAd");
+    if (!Opt_NativeOverlayAd)
     {
+      Debug.Log($"Not opted for NativeOverlayAds");
       return;
     }
+    if (NativeOverlayAdController._nativeOverlayAd == null)
+    {
+      Debug.Log($"NativeOverlayAd is null");
+      return;
+    }
+
+    NativeOverlayAdController.LoadAd();
+  }
+
+  #endregion
+
+
+
+
+  #region App Open Section
+
+  public void LoadAppOpenAd()
+  {
+
+    Debug.Log("ShowAppOpenAd");
+    if (!Opt_AppOpenAd)
+    {
+      Debug.Log($"Not opted for AppOpenAds");
+      return;
+    }
+    if (AppOpenAdController._appOpenAd == null)
+    {
+      Debug.Log($"AppOpenAd is null");
+      return;
+    }
+    if (!AppOpenAdController._appOpenAd.CanShowAd())
+    {
+      Debug.Log($"AppOpenAd is not ready to show this time retry again");
+      return;
+    }
+
     AppOpenAdController.LoadAd();
   }
 
@@ -298,10 +427,13 @@ public class AdsManager : MonoBehaviour
 
   #endregion
 
+
   #region AdMob BannerViewController Section
 
   public class BannerViewController
   {
+    public static bool IsBannerAd_OnScreen { get; set; }
+
     public static BannerView _bannerView;
 
     /// <summary>
@@ -336,6 +468,7 @@ public class AdsManager : MonoBehaviour
       // Send the request to load the ad.
       Debug.Log("Loading banner ad.");
       _bannerView.LoadAd(adRequest);
+
     }
 
     /// <summary>
@@ -441,6 +574,7 @@ public class AdsManager : MonoBehaviour
       _bannerView.OnAdFullScreenContentClosed += () =>
       {
         Debug.Log("Banner view full screen content closed.");
+        DestroyAd();
       };
     }
   }
@@ -454,7 +588,6 @@ public class AdsManager : MonoBehaviour
   {
     //public static InterstitialAdController Instance { get; private set; }
 
-    public static bool IsInterstitialAdAvailable { get { return (_interstitialAd != null && _interstitialAd.CanShowAd()); } }
     public static InterstitialAd _interstitialAd;
 
 
@@ -593,6 +726,7 @@ public class AdsManager : MonoBehaviour
       ad.OnAdFullScreenContentClosed += () =>
       {
         Debug.Log("Interstitial ad full screen content closed.");
+        DestroyAd();
       };
       // Raised when the ad failed to open full screen content.
       ad.OnAdFullScreenContentFailed += (AdError error) =>
@@ -756,7 +890,7 @@ public class AdsManager : MonoBehaviour
       ad.OnAdFullScreenContentClosed += () =>
       {
         Debug.Log("Rewarded ad full screen content closed.");
-        LoadAd();
+        DestroyAd();
       };
       // Raised when the ad failed to open full screen content.
       ad.OnAdFullScreenContentFailed += (AdError error) =>
@@ -927,6 +1061,7 @@ public class AdsManager : MonoBehaviour
       ad.OnAdFullScreenContentClosed += () =>
       {
         Debug.Log("Rewarded interstitial ad full screen content closed.");
+        DestroyAd();
       };
       // Raised when the ad failed to open full screen content.
       ad.OnAdFullScreenContentFailed += (AdError error) =>
@@ -966,7 +1101,7 @@ public class AdsManager : MonoBehaviour
       TemplateId = NativeTemplateId.Medium,
     };
 
-    static NativeOverlayAd _nativeOverlayAd;
+    public static NativeOverlayAd _nativeOverlayAd;
 
     /// <summary>
     /// Loads the ad.
@@ -1042,6 +1177,7 @@ public class AdsManager : MonoBehaviour
       ad.OnAdFullScreenContentClosed += () =>
       {
         Debug.Log("Native Overlay ad full screen content closed.");
+        DestroyAd();
       };
     }
 
@@ -1285,7 +1421,7 @@ public class AdsManager : MonoBehaviour
       ad.OnAdFullScreenContentClosed += () =>
       {
         Debug.Log("App open ad full screen content closed.");
-
+        DestroyAd();
         // It may be useful to load a new ad when the current one is complete.
       };
       // Raised when the ad failed to open full screen content.

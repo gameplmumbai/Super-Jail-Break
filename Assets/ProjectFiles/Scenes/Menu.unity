@@ -926,8 +926,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -189.8}
-  m_SizeDelta: {x: 0, y: 703.23}
+  m_AnchoredPosition: {x: 0, y: -160}
+  m_SizeDelta: {x: 0, y: 550}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &631791033
 MonoBehaviour:
@@ -3380,28 +3380,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AsModuleEnabled: 1
-  AndroidAppId: 
-  BannerId: 
-  InterstitialId: 
-  RewardedId: 
-  RewardedInterstitialId: 
-  NativeOverlayId: 
-  AppOpenId: 
-  AdMobObserverTickRate: 0
+  AndroidAppId: ca-app-pub-7637572513025322~6528660925
+  BannerId: ca-app-pub-7637572513025322/5131818774
+  InterstitialId: ca-app-pub-7637572513025322/3818737102
+  RewardedId: ca-app-pub-7637572513025322/5204821021
+  RewardedInterstitialId: ca-app-pub-7637572513025322/1457147703
+  NativeOverlayId: ca-app-pub-7637572513025322/2578657680
+  AppOpenId: ca-app-pub-7637572513025322/5701281521
+  AdMobObserverTickRate: 3
   Opt_BannerAd: 1
   Opt_InterstitialAd: 1
   Opt_RewardedAd: 0
   Opt_RewardedInterstitialAd: 0
-  Opt_AppOpenAd: 1
+  Opt_NativeOverlayAd: 0
+  Opt_AppOpenAd: 0
   Opt_AutoPopup_InterstitialAd: 1
   Opt_AutoPopup_RewardedAd: 0
   Opt_AutoPopup_RewardedInterstitialAd: 0
-  FirstPopup_InterstitialAd_TimeIn: 0
-  FirstPopup_RewardedAd_TimeIn: 0
-  FirstPopup_RewardedInterstitialAd_TimeIn: 0
-  AutoPopup_InterstitialAd_TimeIn: 0
-  AutoPopup_RewardedAd_TimeIn: 0
-  AutoPopup_RewardedInterstitialAd_TimeIn: 0
+  AutoPopup_InterstitialAd_TimeIn: 5
+  AutoPopup_RewardedAd_TimeIn: 15
+  AutoPopup_RewardedInterstitialAd_TimeIn: 5
 --- !u!4 &1700161026
 Transform:
   m_ObjectHideFlags: 0
