@@ -3398,7 +3398,7 @@ MonoBehaviour:
   Opt_AutoPopup_InterstitialAd: 1
   Opt_AutoPopup_RewardedAd: 0
   Opt_AutoPopup_RewardedInterstitialAd: 0
-  AutoPopup_InterstitialAd_TimeIn: 30
+  AutoPopup_InterstitialAd_TimeIn: 60
   AutoPopup_RewardedAd_TimeIn: 15
   AutoPopup_RewardedInterstitialAd_TimeIn: 5
 --- !u!4 &1700161026

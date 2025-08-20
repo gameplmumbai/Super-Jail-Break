@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class PathCreator : MonoBehaviour
 {
+  [SerializeField]
+  BoxCollider boxCollider;
+
   public static PathCreator instance;
 
   private LineRenderer lineRenderer;
@@ -45,8 +48,8 @@ public class PathCreator : MonoBehaviour
     walker = GameObject.FindGameObjectWithTag("Player");
     candraw = false;
     Ready = false;
-
-
+    boxCollider = GameObject.FindGameObjectWithTag("park").GetComponent<BoxCollider>();
+    boxCollider.size = new Vector3(8, 8, boxCollider.size.z);
   }
 
   // Update is called once per frame

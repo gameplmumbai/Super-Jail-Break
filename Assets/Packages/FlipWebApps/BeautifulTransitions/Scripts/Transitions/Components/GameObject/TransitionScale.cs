@@ -26,83 +26,84 @@ using UnityEngine;
 
 namespace BeautifulTransitions.Scripts.Transitions.Components.GameObject
 {
-    [AddComponentMenu("Beautiful Transitions/GameObject + UI/Scale Transition")]
-    [HelpURL("http://www.flipwebapps.com/beautiful-transitions/")]
-    public class TransitionScale : TransitionGameObjectBase
+  [AddComponentMenu("Beautiful Transitions/GameObject + UI/Scale Transition")]
+  [HelpURL("http://www.flipwebapps.com/beautiful-transitions/")]
+  public class TransitionScale : TransitionGameObjectBase
+  {
+    public InSettings InConfig;
+    public OutSettings OutConfig;
+
+    Vector3 _originalScale;
+
+    #region TransitionBase Overrides
+
+    /// <summary>
+    /// Gather any initial state - See TrtansitionBase for further details
+    /// </summary>
+    public override void SetupInitialState()
     {
-        public InSettings InConfig;
-        public OutSettings OutConfig;
 
-        Vector3 _originalScale;
-
-        #region TransitionBase Overrides
-
-        /// <summary>
-        /// Gather any initial state - See TrtansitionBase for further details
-        /// </summary>
-        public override void SetupInitialState()
-        {
-            _originalScale = ((Scale)CreateTransitionStep()).OriginalValue;
-        }
-
-
-        /// <summary>
-        /// Get an instance of the current transition item
-        /// </summary>
-        /// <returns></returns>
-        public override TransitionStep CreateTransitionStep()
-        {
-            return new Scale(Target);
-        }
-
-        /// <summary>
-        /// Add common values to the transitionStep for the in transition
-        /// </summary>
-        /// <param name="transitionStep"></param>
-        public override void SetupTransitionStepIn(TransitionStep transitionStep)
-        {
-            var transitionStepScale = transitionStep as Scale;
-            if (transitionStepScale != null)
-            {
-                transitionStepScale.StartValue = InConfig.StartScale;
-                transitionStepScale.EndValue = _originalScale;
-            }
-            base.SetupTransitionStepIn(transitionStep);
-        }
-
-        /// <summary>
-        /// Add common values to the transitionStep for the out transition
-        /// </summary>
-        /// <param name="transitionStep"></param>
-        public override void SetupTransitionStepOut(TransitionStep transitionStep)
-        {
-            var transitionStepScale = transitionStep as Scale;
-            if (transitionStepScale != null)
-            {
-                transitionStepScale.StartValue = transitionStepScale.GetCurrent();
-                transitionStepScale.EndValue = OutConfig.EndScale;
-            }
-            base.SetupTransitionStepOut(transitionStep);
-        }
-
-        #endregion TransitionBase Overrides
-
-        #region Transition specific settings
-
-        [System.Serializable]
-        public class InSettings
-        {
-            [Tooltip("Start scale (end at the GameObjects initial scale).")]
-            public Vector3 StartScale = new Vector3(0, 0, 0);
-        }
-
-        [System.Serializable]
-        public class OutSettings
-        {
-            [Tooltip("End scale (starts at the GameObjects current scale).")]
-            public Vector3 EndScale = new Vector3(0, 0, 0);
-        }
-
-        #endregion Transition specific settings
+      _originalScale = ((Scale)CreateTransitionStep()).OriginalValue;
     }
+
+
+    /// <summary>
+    /// Get an instance of the current transition item
+    /// </summary>
+    /// <returns></returns>
+    public override TransitionStep CreateTransitionStep()
+    {
+      return new Scale(Target);
+    }
+
+    /// <summary>
+    /// Add common values to the transitionStep for the in transition
+    /// </summary>
+    /// <param name="transitionStep"></param>
+    public override void SetupTransitionStepIn(TransitionStep transitionStep)
+    {
+      var transitionStepScale = transitionStep as Scale;
+      if (transitionStepScale != null)
+      {
+        transitionStepScale.StartValue = InConfig.StartScale;
+        transitionStepScale.EndValue = _originalScale;
+      }
+      base.SetupTransitionStepIn(transitionStep);
+    }
+
+    /// <summary>
+    /// Add common values to the transitionStep for the out transition
+    /// </summary>
+    /// <param name="transitionStep"></param>
+    public override void SetupTransitionStepOut(TransitionStep transitionStep)
+    {
+      var transitionStepScale = transitionStep as Scale;
+      if (transitionStepScale != null)
+      {
+        transitionStepScale.StartValue = transitionStepScale.GetCurrent();
+        transitionStepScale.EndValue = OutConfig.EndScale;
+      }
+      base.SetupTransitionStepOut(transitionStep);
+    }
+
+    #endregion TransitionBase Overrides
+
+    #region Transition specific settings
+
+    [System.Serializable]
+    public class InSettings
+    {
+      [Tooltip("Start scale (end at the GameObjects initial scale).")]
+      public Vector3 StartScale = new Vector3(0, 0, 0);
+    }
+
+    [System.Serializable]
+    public class OutSettings
+    {
+      [Tooltip("End scale (starts at the GameObjects current scale).")]
+      public Vector3 EndScale = new Vector3(0, 0, 0);
+    }
+
+    #endregion Transition specific settings
+  }
 }

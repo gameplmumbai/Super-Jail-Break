@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using BeautifulTransitions.Scripts.Transitions.Components.GameObject;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -6,6 +7,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+
   public static GameManager instance;
   public Text LevelText;
   [Header("UI")]
@@ -27,7 +29,6 @@ public class GameManager : MonoBehaviour
       instance = this;
     else if (instance != this)
       Destroy(gameObject);
-
   }
 
   void Start()
@@ -45,10 +46,15 @@ public class GameManager : MonoBehaviour
       Tutorial.SetActive(true);
       StartCoroutine(EndTutorial());
     }
+    TransitionScale[] transitionSettings = FindObjectsByType<TransitionScale>(FindObjectsSortMode.None);
+    foreach (var item in transitionSettings)
+    {
+      item.TransitionInConfig.TransitionType = BeautifulTransitions.Scripts.Transitions.TransitionHelper.TweenType.linear;
+      item.TransitionOutConfig.TransitionType = BeautifulTransitions.Scripts.Transitions.TransitionHelper.TweenType.linear;
+    }
 
   }
 
-  // Update is called once per frame
   void Update()
   {
     if (PathCreator.instance.Ready)
