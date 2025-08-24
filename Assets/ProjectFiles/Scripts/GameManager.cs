@@ -1,4 +1,5 @@
 ﻿using BeautifulTransitions.Scripts.Transitions.Components.GameObject;
+using GamesLoki.GoogleMobileAds;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -83,8 +84,12 @@ public class GameManager : MonoBehaviour
     isGameEnd = true;
     RedAlert.SetActive(true);
     StartCoroutine(GameOverSceen());
+  }
 
-    // GameOverUI.SetActive(true);
+  void DelayShowInterstitialAd()
+  {
+    AdMobManager.Instance.ShowInterstitialAd();
+
   }
 
   public void LevelCompleted()
@@ -97,7 +102,9 @@ public class GameManager : MonoBehaviour
       //GameWinUI.SetActive(true);
       SceneManager.LoadScene("GameWin");
       isGameEnd = true;
-      AdsManager.Instance.ShowInterstitialAd();
+      //AdsManager.Instance.ShowInterstitialAd();
+      AdMobManager.Instance.ShowInterstitialAd();
+
     }
   }
 

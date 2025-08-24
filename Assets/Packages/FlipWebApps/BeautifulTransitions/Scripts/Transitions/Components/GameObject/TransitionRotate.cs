@@ -24,108 +24,108 @@ using BeautifulTransitions.Scripts.Transitions.TransitionSteps;
 using BeautifulTransitions.Scripts.Transitions.TransitionSteps.AbstractClasses;
 using UnityEngine;
 
-namespace BeautifulTransitions.Scripts.Transitions.Components.GameObject
+namespace BeautifulTransitions.Scripts.Transitions.Components.GameObjects
 {
-    [AddComponentMenu("Beautiful Transitions/GameObject + UI/Rotate Transition")]
-    [HelpURL("http://www.flipwebapps.com/beautiful-transitions/")]
-    public class TransitionRotate : TransitionGameObjectBase
+  [AddComponentMenu("Beautiful Transitions/GameObject + UI/Rotate Transition")]
+  [HelpURL("http://www.flipwebapps.com/beautiful-transitions/")]
+  public class TransitionRotate : TransitionGameObjectBase
+  {
+    public enum RotationModeType
     {
-        public enum RotationModeType
-        {
-            Global,
-            Local
-        };
+      Global,
+      Local
+    };
 
-        public RotationModeType RotationMode = RotationModeType.Local;
+    public RotationModeType RotationMode = RotationModeType.Local;
 
-        public InSettings InConfig;
-        public OutSettings OutConfig;
+    public InSettings InConfig;
+    public OutSettings OutConfig;
 
-        Vector3 _originalRotation;
+    Vector3 _originalRotation;
 
-        #region TransitionBase Overrides
+    #region TransitionBase Overrides
 
-        /// <summary>
-        /// Gather any initial state - See TrtansitionBase for further details
-        /// </summary>
-        public override void SetupInitialState()
-        {
-            _originalRotation = ((Rotate)CreateTransitionStep()).OriginalValue;
-        }
-
-
-        /// <summary>
-        /// Get an instance of the current transition item
-        /// </summary>
-        /// <returns></returns>
-        public override TransitionStep CreateTransitionStep()
-        {
-            return new Rotate(Target, coordinateSpace: ConvertRotationMode());
-        }
-
-        /// <summary>
-        /// Add common values to the transitionStep for the in transition
-        /// </summary>
-        /// <param name="transitionStep"></param>
-        public override void SetupTransitionStepIn(TransitionStep transitionStep)
-        {
-            var transitionStepRotate = transitionStep as Rotate;
-            if (transitionStepRotate != null)
-            {
-                transitionStepRotate.StartValue = InConfig.StartRotation;
-                transitionStepRotate.EndValue = _originalRotation;
-                transitionStepRotate.CoordinateSpace = ConvertRotationMode();
-            }
-            base.SetupTransitionStepIn(transitionStep);
-        }
-
-        /// <summary>
-        /// Add common values to the transitionStep for the out transition
-        /// </summary>
-        /// <param name="transitionStep"></param>
-        public override void SetupTransitionStepOut(TransitionStep transitionStep)
-        {
-            var transitionStepRotate = transitionStep as Rotate;
-            if (transitionStepRotate != null)
-            {
-                transitionStepRotate.StartValue = transitionStepRotate.GetCurrent();
-                transitionStepRotate.EndValue = OutConfig.EndRotation;
-                transitionStepRotate.CoordinateSpace = ConvertRotationMode();
-            }
-            base.SetupTransitionStepOut(transitionStep);
-        }
-
-        #endregion TransitionBase Overrides
-
-        /// <summary>
-        /// Convert custom rotation mode to standard one.
-        /// </summary>
-        /// <returns></returns>
-        TransitionStep.CoordinateSpaceType ConvertRotationMode()
-        {
-            if (RotationMode == RotationModeType.Global)
-                return TransitionStep.CoordinateSpaceType.Global;
-            // else if (RotationMode == RotationModeType.Local)
-            return TransitionStep.CoordinateSpaceType.Local;
-        }
-
-        #region Transition specific settings
-
-        [System.Serializable]
-        public class InSettings
-        {
-            [Tooltip("Start rotation (end at the GameObjects initial rotation).")]
-            public Vector3 StartRotation = new Vector3(0, 0, 0);
-        }
-
-        [System.Serializable]
-        public class OutSettings
-        {
-            [Tooltip("End rotation (starts at the GameObjects current position).")]
-            public Vector3 EndRotation = new Vector3(0, 0, 0);
-        }
-
-        #endregion Transition specific settings
-
+    /// <summary>
+    /// Gather any initial state - See TrtansitionBase for further details
+    /// </summary>
+    public override void SetupInitialState()
+    {
+      _originalRotation = ((Rotate)CreateTransitionStep()).OriginalValue;
     }
+
+
+    /// <summary>
+    /// Get an instance of the current transition item
+    /// </summary>
+    /// <returns></returns>
+    public override TransitionStep CreateTransitionStep()
+    {
+      return new Rotate(Target, coordinateSpace: ConvertRotationMode());
+    }
+
+    /// <summary>
+    /// Add common values to the transitionStep for the in transition
+    /// </summary>
+    /// <param name="transitionStep"></param>
+    public override void SetupTransitionStepIn(TransitionStep transitionStep)
+    {
+      var transitionStepRotate = transitionStep as Rotate;
+      if (transitionStepRotate != null)
+      {
+        transitionStepRotate.StartValue = InConfig.StartRotation;
+        transitionStepRotate.EndValue = _originalRotation;
+        transitionStepRotate.CoordinateSpace = ConvertRotationMode();
+      }
+      base.SetupTransitionStepIn(transitionStep);
+    }
+
+    /// <summary>
+    /// Add common values to the transitionStep for the out transition
+    /// </summary>
+    /// <param name="transitionStep"></param>
+    public override void SetupTransitionStepOut(TransitionStep transitionStep)
+    {
+      var transitionStepRotate = transitionStep as Rotate;
+      if (transitionStepRotate != null)
+      {
+        transitionStepRotate.StartValue = transitionStepRotate.GetCurrent();
+        transitionStepRotate.EndValue = OutConfig.EndRotation;
+        transitionStepRotate.CoordinateSpace = ConvertRotationMode();
+      }
+      base.SetupTransitionStepOut(transitionStep);
+    }
+
+    #endregion TransitionBase Overrides
+
+    /// <summary>
+    /// Convert custom rotation mode to standard one.
+    /// </summary>
+    /// <returns></returns>
+    TransitionStep.CoordinateSpaceType ConvertRotationMode()
+    {
+      if (RotationMode == RotationModeType.Global)
+        return TransitionStep.CoordinateSpaceType.Global;
+      // else if (RotationMode == RotationModeType.Local)
+      return TransitionStep.CoordinateSpaceType.Local;
+    }
+
+    #region Transition specific settings
+
+    [System.Serializable]
+    public class InSettings
+    {
+      [Tooltip("Start rotation (end at the GameObjects initial rotation).")]
+      public Vector3 StartRotation = new Vector3(0, 0, 0);
+    }
+
+    [System.Serializable]
+    public class OutSettings
+    {
+      [Tooltip("End rotation (starts at the GameObjects current position).")]
+      public Vector3 EndRotation = new Vector3(0, 0, 0);
+    }
+
+    #endregion Transition specific settings
+
+  }
 }

@@ -4527,6 +4527,86 @@ PrefabInstance:
       propertyPath: m_Name
       value: AdManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: BannerId
+      value: ca-app-pub-7637572513025322/5131818774
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: AppOpenId
+      value: ca-app-pub-7637572513025322/5701281521
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: RewardedId
+      value: ca-app-pub-7637572513025322/5204821021
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: AndroidAppId
+      value: ca-app-pub-7637572513025322~6528660925
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: Opt_AppOpenAd
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: InterstitialId
+      value: ca-app-pub-7637572513025322/3818737102
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: Opt_RewardedAd
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: Opt_InterstitialAd
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: ForceInternetRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: RewardedInterstitialId
+      value: ca-app-pub-7637572513025322/1457147703
+      objectReference: {fileID: 0}
+    - target: {fileID: 5642671719499560436, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5642671719499560436, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5642671719499560436, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5642671719499560436, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5642671719499560436, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 5652326918775278322, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5652326918775278322, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5652326918775278322, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5652326918775278322, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5652326918775278322, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -95
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

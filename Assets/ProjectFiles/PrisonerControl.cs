@@ -29,9 +29,16 @@ public class PrisonerControl : MonoBehaviour
       {
         if (count < TotalPrisoner)
         {
-          PathCreator.instance.Escape(transform.GetChild(count).gameObject);
-          Debug.Log(transform.GetChild(count).gameObject.name);
-          count++;
+          try
+          {
+            PathCreator.instance.Escape(transform.GetChild(count).gameObject);
+            Debug.Log(transform.GetChild(count).gameObject.name);
+            count++;
+          }
+          catch (System.Exception e)
+          {
+            Debug.Log($"Error: \n {e.Message}");
+          }
         }
       }
     }
