@@ -1,37 +1,56 @@
-﻿using GoogleMobileAds.Api;
+﻿using GamesLoki.GoogleMobileAds;
+using GoogleMobileAds.Api;
 using GoogleMobileAds.Common;
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace GamesLoki.GoogleMobileAds
 {
+
   public class AdMobManager : MonoBehaviour
   {
     #region Vars
     [SerializeField]
     public bool ForceInternetRequired;
-
     [SerializeField]
     bool AsModuleEnabled;
+
     [SerializeField]
-    bool IsMobileAds_Initilised;
-    public string AndroidAppId, BannerId, InterstitialId, RewardedId, RewardedInterstitialId, NativeOverlayId, AppOpenId;
-
-    [Range(3, 30)]
-    public float AdMobObserverTickRate;
+    bool IsGoogle_MobileAds_Initilised;
 
 
-    [Header("Opt For AdMob Types")]
+    [Space(15)]
+    [Header("AdMob Unit IDs")]
+    public string AndroidAppId;
+    public string BannerId;
+    public string InterstitialId;
+    public string RewardedId;
+    public string RewardedInterstitialId;
+    public string NativeOverlayId;
+    public string AppOpenId;
+
+
+    public enum BannerAdSize { Banner, MediumRectangle, IABBanner, Leaderboard }
+
+    [Space(15)]
+    [Header("Opt Section")]
     public bool Opt_BannerAd;
+    public AdPosition Banner_AdPosition;
+    public BannerAdSize Banner_AdSize;
+
     public bool Opt_InterstitialAd;
     public bool Opt_RewardedAd;
     public bool Opt_RewardedInterstitialAd;
     public bool Opt_NativeOverlayAd;
     public bool Opt_AppOpenAd;
 
+    [Space(15)]
+    [Header("Auto Popup Section")]
+    public bool OptForAutoPopupAds;
 
-    [Header("Opt For AutoPopup")]
+    [Space(15)]
     public bool Opt_AutoPopup_InterstitialAd;
     public bool Opt_AutoPopup_RewardedAd;
     public bool Opt_AutoPopup_RewardedInterstitialAd;
@@ -49,9 +68,20 @@ namespace GamesLoki.GoogleMobileAds
     public static AdMobManager Instance { get; private set; }
 
 
-    public NetworkReachability _lastReachability;
+    [Space(15)]
+    public bool lastOnlineState;
 
-    public static bool IsOffline { get { return (Application.internetReachability == NetworkReachability.NotReachable); } }
+    public static bool IsConnectedToInternet { get { return IsInternetAvailable(); } }
+    public void SetTestIds()
+    {
+      AndroidAppId = "ca-app-pub-3940256099942544~3347511713";
+      BannerId = "ca-app-pub-3940256099942544/6300978111";
+      InterstitialId = "ca-app-pub-3940256099942544/1033173712";
+      RewardedId = "ca-app-pub-3940256099942544/5224354917";
+      RewardedInterstitialId = "ca-app-pub-3940256099942544/5354046379";
+      NativeOverlayId = "ca-app-pub-3940256099942544/2247696110";
+      AppOpenId = "ca-app-pub-3940256099942544/9257395921";
+    }
     #endregion
 
 
@@ -61,33 +91,46 @@ namespace GamesLoki.GoogleMobileAds
     {
       if (Instance == null) { Instance = this; }
       gameObject.name = this.GetType().Name;
-      if (!AsModuleEnabled) { return; }
-      AdMobObserverTickRate = (AdMobObserverTickRate <= 0) ? 3 : AdMobObserverTickRate;
+      IsGoogle_MobileAds_Initilised = false;
       if (!ForceInternetRequired)
       {
         Destroy(FindAnyObjectByType<InternetMoniter>().gameObject);
       }
+      if (!AsModuleEnabled) { return; }
       AppOpenAdController.Awake();
     }
 
     void Start()
     {
       DontDestroyOnLoad(gameObject);
-      if (!AsModuleEnabled) { return; }
-      Init_AdMob();
+
+      if (IsConnectedToInternet)
+      {
+        Initialize_AdMob();
+      }
+      lastOnlineState = IsConnectedToInternet;
     }
 
     private void Update()
     {
-      if (_lastReachability != Application.internetReachability)
+      if (lastOnlineState != IsConnectedToInternet)
       {
-        if (_lastReachability == NetworkReachability.NotReachable)
+        if (IsConnectedToInternet)
         {
-          Apply_AutoPopup_Ads();
+          if (!IsGoogle_MobileAds_Initilised)
+          {
+            Initialize_AdMob();
+          }
+          else
+          {
+            Validate_AdMob_Initilised();
+          }
         }
-        _lastReachability = Application.internetReachability;
+        lastOnlineState = IsConnectedToInternet;
       }
     }
+
+
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -106,7 +149,6 @@ namespace GamesLoki.GoogleMobileAds
 
     private void OnDestroy()
     {
-      //Debug.Log($"MobileAds destroyed");
       AppOpenAdController.OnDestroy();
     }
 
@@ -115,8 +157,14 @@ namespace GamesLoki.GoogleMobileAds
 
     #region AdMob Initialize Section
 
-    public void Init_AdMob()
+    public void Initialize_AdMob()
     {
+      if (!IsConnectedToInternet)
+      {
+        Debug.Log("Init_AdMob IsOffline return");
+        return;
+      }
+
       if (string.IsNullOrEmpty(AndroidAppId))
       {
         Debug.LogWarning($"AdMobAndroidAppId is null");
@@ -135,69 +183,116 @@ namespace GamesLoki.GoogleMobileAds
         // access UnityEngine objects after initialization,
         // use MobileAdsEventExecsutor.ExecuteInUpdate(). For more information, see:
         // https://developers.google.com/admob/unity/global-settings#raise_ad_events_on_the_unity_main_thread
-        IsMobileAds_Initilised = true;
+        IsGoogle_MobileAds_Initilised = true;
       });
-      InvokeRepeating(nameof(AdView_Observer), AdMobObserverTickRate, AdMobObserverTickRate);
-      InvokeRepeating(nameof(Apply_AutoPopup_Ads), AdMobObserverTickRate, AdMobObserverTickRate);
+      Invoke(nameof(Validate_AdMob_Initilised), 5);
     }
 
-
-    void AdView_Observer()
+    void Validate_AdMob_Initilised()
     {
-      if (!IsMobileAds_Initilised) { return; }
-      if (IsOffline)
+      Debug.Log("Validate_AdMob_Initilised");
+      if (!IsGoogle_MobileAds_Initilised)
       {
-        Debug.Log("AdView_Observer IsOffline");
-        return;
+        Invoke(nameof(Validate_AdMob_Initilised), 5);
       }
+      else
+      {
+        Initilise_ADs();
+        Apply_AutoPopup_Ads();
+      }
+    }
+
+    void Initilise_ADs()
+    {
+      if (!IsConnectedToInternet) { return; }
+      Debug.Log("Initilise_ADs");
       if (Opt_BannerAd && BannerViewController._bannerView == null)
       {
         BannerViewController.LoadAd();
       }
 
-      if (Opt_InterstitialAd && InterstitialAdController._interstitialAd == null)
+      if (Opt_InterstitialAd)
       {
-        InterstitialAdController.LoadAd();
+        if (InterstitialAdController._interstitialAd == null || !InterstitialAdController._interstitialAd.CanShowAd())
+        {
+          InterstitialAdController.LoadAd();
+        }
       }
 
-      if (Opt_RewardedAd && RewardedAdController._rewardedAd == null)
+      if (Opt_RewardedAd)
       {
-        RewardedAdController.LoadAd();
+        if (RewardedAdController._rewardedAd == null || !RewardedAdController._rewardedAd.CanShowAd())
+        {
+          RewardedAdController.LoadAd();
+        }
       }
 
-      if (Opt_RewardedInterstitialAd && RewardedInterstitialAdController._rewardedInterstitialAd == null)
+      if (Opt_RewardedInterstitialAd)
       {
-        RewardedInterstitialAdController.LoadAd();
+        if (RewardedInterstitialAdController._rewardedInterstitialAd == null || !RewardedInterstitialAdController._rewardedInterstitialAd.CanShowAd())
+        {
+          RewardedInterstitialAdController.LoadAd();
+        }
+      }
+      if (Opt_NativeOverlayAd)
+      {
+        if (NativeOverlayAdController._nativeOverlayAd == null)
+        {
+          NativeOverlayAdController.LoadAd();
+        }
       }
 
-      if (Opt_AppOpenAd && AppOpenAdController._appOpenAd == null)
+      if (Opt_AppOpenAd)
       {
-        AppOpenAdController.LoadAd();
+        if (AppOpenAdController._appOpenAd == null || !AppOpenAdController._appOpenAd.CanShowAd())
+        {
+          AppOpenAdController.LoadAd();
+        }
+      }
+    }
+    void Apply_AutoPopup_Ads()
+    {
+      Debug.Log("Apply_AutoPopup_Ads");
+      CancelInvoke(nameof(Auto_Popup_InterstitialAd));
+      CancelInvoke(nameof(Auto_Popup_RewardedAd));
+      CancelInvoke(nameof(Auto_Popup_RewardedInterstitialAd));
+      if (Opt_InterstitialAd && Opt_AutoPopup_InterstitialAd)
+      {
+        Invoke(nameof(Auto_Popup_InterstitialAd), AutoPopup_InterstitialAd_TimeIn);
+      }
+      if (Opt_RewardedAd && Opt_AutoPopup_RewardedAd)
+      {
+        Invoke(nameof(Auto_Popup_RewardedAd), AutoPopup_RewardedAd_TimeIn);
+      }
+      if (Opt_RewardedInterstitialAd && Opt_AutoPopup_RewardedInterstitialAd)
+      {
+        Invoke(nameof(Auto_Popup_RewardedInterstitialAd), AutoPopup_RewardedInterstitialAd_TimeIn);
       }
     }
 
 
-    public void Apply_AutoPopup_Ads()
+    void Auto_Popup_InterstitialAd()
     {
-      if (!IsMobileAds_Initilised) { return; }
-      if (IsOffline)
-      {
-        Debug.Log("AdView_Observer IsOffline");
-        return;
-      }
-      if (Opt_InterstitialAd && Opt_AutoPopup_InterstitialAd)
-      {
-        InvokeRepeating(nameof(ShowInterstitialAd), AutoPopup_InterstitialAd_TimeIn, AutoPopup_InterstitialAd_TimeIn);
-      }
-      if (Opt_RewardedAd && Opt_AutoPopup_RewardedAd)
-      {
-        InvokeRepeating(nameof(ShowRewardedAd), AutoPopup_RewardedAd_TimeIn, AutoPopup_RewardedAd_TimeIn);
-      }
-      if (Opt_RewardedInterstitialAd && Opt_AutoPopup_RewardedInterstitialAd)
-      {
-        InvokeRepeating(nameof(ShowRewardedInterstitialAd), AutoPopup_RewardedInterstitialAd_TimeIn, AutoPopup_RewardedInterstitialAd_TimeIn);
-      }
-      CancelInvoke(nameof(Apply_AutoPopup_Ads));
+      Debug.Log("Auto_Popup_InterstitialAd Invoked");
+      Invoke(nameof(Auto_Popup_InterstitialAd), AutoPopup_InterstitialAd_TimeIn);
+      if (!IsGoogle_MobileAds_Initilised || !IsConnectedToInternet) { return; }
+      ShowInterstitialAd();
+    }
+
+    void Auto_Popup_RewardedAd()
+    {
+      Debug.Log("Auto_Popup_RewardedAd Invoked");
+      Invoke(nameof(Auto_Popup_RewardedAd), AutoPopup_RewardedAd_TimeIn);
+      if (!IsGoogle_MobileAds_Initilised || !IsConnectedToInternet) { return; }
+      ShowRewardedAd();
+    }
+
+    void Auto_Popup_RewardedInterstitialAd()
+    {
+      Debug.Log("Auto_Popup_RewardedInterstitialAd Invoked");
+      Invoke(nameof(Auto_Popup_RewardedInterstitialAd), AutoPopup_RewardedInterstitialAd_TimeIn);
+      if (!IsGoogle_MobileAds_Initilised || !IsConnectedToInternet) { return; }
+      ShowRewardedInterstitialAd();
     }
 
     #region Banner Section
@@ -216,11 +311,11 @@ namespace GamesLoki.GoogleMobileAds
 
     #endregion
 
+
     #region Interstitial Section
     void ShowInterstitialAd()
     {
-      if (!IsMobileAds_Initilised) { return; }
-
+      if (!IsGoogle_MobileAds_Initilised || !IsConnectedToInternet) { return; }
       Debug.Log("ShowInterstitialAd");
       if (!Opt_InterstitialAd)
       {
@@ -229,6 +324,7 @@ namespace GamesLoki.GoogleMobileAds
       }
       if (InterstitialAdController._interstitialAd == null)
       {
+        InterstitialAdController.LoadAd();
         Debug.Log($"InterstitialAd is null");
         return;
       }
@@ -242,7 +338,7 @@ namespace GamesLoki.GoogleMobileAds
 
     public void ShowInterstitialAd(Action<bool> adDisplayedonScreen_callback = null)
     {
-      if (!IsMobileAds_Initilised) { return; }
+      if (!IsGoogle_MobileAds_Initilised || !IsConnectedToInternet) { return; }
 
       Debug.Log("ShowInterstitialAd");
       if (!Opt_InterstitialAd)
@@ -252,6 +348,7 @@ namespace GamesLoki.GoogleMobileAds
       }
       if (InterstitialAdController._interstitialAd == null)
       {
+        InterstitialAdController.LoadAd();
         Debug.Log($"InterstitialAd is null");
         return;
       }
@@ -272,7 +369,7 @@ namespace GamesLoki.GoogleMobileAds
 
     void ShowRewardedAd()
     {
-      if (!IsMobileAds_Initilised) { return; }
+      if (!IsGoogle_MobileAds_Initilised || !IsConnectedToInternet) { return; }
 
       Debug.Log("ShowRewardedAd");
       if (!Opt_RewardedAd)
@@ -282,6 +379,7 @@ namespace GamesLoki.GoogleMobileAds
       }
       if (RewardedAdController._rewardedAd == null)
       {
+        RewardedAdController.LoadAd();
         Debug.Log($"RewardedAd is null");
         return;
       }
@@ -295,7 +393,7 @@ namespace GamesLoki.GoogleMobileAds
 
     public void ShowRewardedAd(Action<bool> adDisplayedonScreen_callback = null)
     {
-      if (!IsMobileAds_Initilised) { return; }
+      if (!IsGoogle_MobileAds_Initilised || !IsConnectedToInternet) { return; }
 
       Debug.Log("ShowRewardedAd");
       if (!Opt_RewardedAd)
@@ -305,6 +403,7 @@ namespace GamesLoki.GoogleMobileAds
       }
       if (RewardedAdController._rewardedAd == null)
       {
+        RewardedAdController.LoadAd();
         Debug.Log($"RewardedAd is null");
         return;
       }
@@ -323,7 +422,8 @@ namespace GamesLoki.GoogleMobileAds
     public bool IsRewardedInterstitialAdVideoAvailable { get { return RewardedInterstitialAdController.IsRewardedInterstitialAdAvailable; } }
     public void ShowRewardedInterstitialAd()
     {
-      if (!IsMobileAds_Initilised) { return; }
+      if (!IsGoogle_MobileAds_Initilised || !IsConnectedToInternet) { return; }
+
       Debug.Log("ShowRewardedInterstitialAd");
       if (!Opt_RewardedInterstitialAd)
       {
@@ -332,6 +432,7 @@ namespace GamesLoki.GoogleMobileAds
       }
       if (RewardedInterstitialAdController._rewardedInterstitialAd == null)
       {
+        RewardedInterstitialAdController.LoadAd();
         Debug.Log($"RewardedInterstitialAd is null");
         return;
       }
@@ -344,7 +445,7 @@ namespace GamesLoki.GoogleMobileAds
     }
     public void ShowRewardedInterstitialAd(Action<bool> adDisplayedonScreen_callback = null)
     {
-      if (!IsMobileAds_Initilised) { return; }
+      if (!IsGoogle_MobileAds_Initilised || !IsConnectedToInternet) { return; }
 
       Debug.Log("ShowRewardedInterstitialAd");
       if (!Opt_RewardedInterstitialAd)
@@ -354,6 +455,7 @@ namespace GamesLoki.GoogleMobileAds
       }
       if (RewardedInterstitialAdController._rewardedInterstitialAd == null)
       {
+        RewardedInterstitialAdController.LoadAd();
         Debug.Log($"RewardedInterstitialAd is null");
         return;
       }
@@ -370,7 +472,8 @@ namespace GamesLoki.GoogleMobileAds
 
     public void LoadNativeOverlayAd()
     {
-      if (!IsMobileAds_Initilised) { return; }
+      if (!IsGoogle_MobileAds_Initilised || !IsConnectedToInternet) { return; }
+
 
       Debug.Log("ShowNativeOverlayAd");
       if (!Opt_NativeOverlayAd)
@@ -380,6 +483,7 @@ namespace GamesLoki.GoogleMobileAds
       }
       if (NativeOverlayAdController._nativeOverlayAd == null)
       {
+        NativeOverlayAdController.LoadAd();
         Debug.Log($"NativeOverlayAd is null");
         return;
       }
@@ -394,7 +498,7 @@ namespace GamesLoki.GoogleMobileAds
 
     public void LoadAppOpenAd()
     {
-      if (!IsMobileAds_Initilised) { return; }
+      if (!IsGoogle_MobileAds_Initilised || !IsConnectedToInternet) { return; }
 
       Debug.Log("ShowAppOpenAd");
       if (!Opt_AppOpenAd)
@@ -404,12 +508,13 @@ namespace GamesLoki.GoogleMobileAds
       }
       if (AppOpenAdController._appOpenAd == null)
       {
-        Debug.Log($"AppOpenAd is null");
+        AppOpenAdController.LoadAd();
+        Debug.Log($"_appOpenAd == null");
         return;
       }
       if (!AppOpenAdController._appOpenAd.CanShowAd())
       {
-        Debug.Log($"AppOpenAd is not ready to show this time retry again");
+        Debug.Log($"_appOpenAd is not ready to show this time retry again");
         return;
       }
 
@@ -442,8 +547,24 @@ namespace GamesLoki.GoogleMobileAds
           DestroyAd();
         }
 
+        switch (Instance.Banner_AdSize)
+        {
+          case BannerAdSize.Banner:
+            _bannerView = new BannerView(Instance.BannerId, AdSize.Banner, Instance.Banner_AdPosition);
+            break;
+          case BannerAdSize.MediumRectangle:
+            _bannerView = new BannerView(Instance.BannerId, AdSize.MediumRectangle, Instance.Banner_AdPosition);
+            break;
+          case BannerAdSize.IABBanner:
+            _bannerView = new BannerView(Instance.BannerId, AdSize.IABBanner, Instance.Banner_AdPosition);
+            break;
+          case BannerAdSize.Leaderboard:
+            _bannerView = new BannerView(Instance.BannerId, AdSize.Leaderboard, Instance.Banner_AdPosition);
+            break;
+
+        }
         // Create a 320x50 banner at top of the screen.
-        _bannerView = new BannerView(AdMobManager.Instance.BannerId, AdSize.IABBanner, AdPosition.Bottom);
+        //_bannerView = new BannerView(AdMobManager.Instance.BannerId, AdSize.IABBanner, AdPosition.Bottom);
         // Listen to events the banner may raise.
         ListenToAdEvents();
 
@@ -463,7 +584,6 @@ namespace GamesLoki.GoogleMobileAds
         // Send the request to load the ad.
         Debug.Log("Loading banner ad.");
         _bannerView.LoadAd(adRequest);
-        ShowAd();
       }
 
       /// <summary>
@@ -531,12 +651,13 @@ namespace GamesLoki.GoogleMobileAds
         _bannerView.OnBannerAdLoaded += () =>
         {
           Debug.Log("Banner view loaded an ad with response : " + _bannerView.GetResponseInfo());
-
+          ShowAd();
         };
         // Raised when an ad fails to load into the banner view.
         _bannerView.OnBannerAdLoadFailed += (LoadAdError error) =>
         {
           Debug.LogError("Banner view failed to load an ad with error : " + error);
+          LoadAd();
         };
         // Raised when the ad is estimated to have earned money.
         _bannerView.OnAdPaid += (AdValue adValue) =>
@@ -577,6 +698,7 @@ namespace GamesLoki.GoogleMobileAds
     public class InterstitialAdController : MonoBehaviour
     {
       //public static InterstitialAdController Instance { get; private set; }
+      public static bool IsInterstitialAdAvailable { get { return ((_interstitialAd != null) && _interstitialAd.CanShowAd()); } }
 
       public static InterstitialAd _interstitialAd;
 
@@ -599,7 +721,7 @@ namespace GamesLoki.GoogleMobileAds
         var adRequest = new AdRequest();
 
         // Send the request to load the ad.
-        InterstitialAd.Load(AdMobManager.Instance.InterstitialId, adRequest, (InterstitialAd ad, LoadAdError error) =>
+        InterstitialAd.Load(Instance.InterstitialId, adRequest, (InterstitialAd ad, LoadAdError error) =>
         {
           // If the operation failed with a reason.
           if (error != null)
@@ -723,6 +845,7 @@ namespace GamesLoki.GoogleMobileAds
         {
           Debug.LogError("Interstitial ad failed to open full screen content with error : "
                     + error);
+          LoadAd();
         };
       }
     }
@@ -887,6 +1010,7 @@ namespace GamesLoki.GoogleMobileAds
         {
           Debug.LogError("Rewarded ad failed to open full screen content with error : "
                     + error);
+          LoadAd();
         };
       }
     }
@@ -1058,6 +1182,7 @@ namespace GamesLoki.GoogleMobileAds
         {
           Debug.LogError("Rewarded interstitial ad failed to open full screen content" +
                                " with error : " + error);
+          LoadAd();
         };
       }
     }
@@ -1162,6 +1287,7 @@ namespace GamesLoki.GoogleMobileAds
         ad.OnAdFullScreenContentOpened += () =>
         {
           Debug.Log("Native Overlay ad full screen content opened.");
+          LoadAd();
         };
         // Raised when the ad closed full screen content.
         ad.OnAdFullScreenContentClosed += () =>
@@ -1419,10 +1545,125 @@ namespace GamesLoki.GoogleMobileAds
         {
           Debug.LogError("App open ad failed to open full screen content with error : "
                                 + error);
+          LoadAd();
         };
       }
     }
 
     #endregion
+    public static bool IsInternetAvailable()
+    {
+#if UNITY_EDITOR
+      return (UnityEngine.Device.Application.internetReachability != NetworkReachability.NotReachable);
+#elif UNITY_ANDROID
+        try
+        {
+            using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            {
+                AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+                // Get ConnectivityManager
+                AndroidJavaObject connectivityManager = activity.Call<AndroidJavaObject>(
+                    "getSystemService", "connectivity");
+
+                if (connectivityManager != null)
+                {
+                    // Get active network info
+                    AndroidJavaObject networkInfo = connectivityManager.Call<AndroidJavaObject>("getActiveNetworkInfo");
+
+                    if (networkInfo != null)
+                    {
+                        bool connected = networkInfo.Call<bool>("isConnected");
+                        return connected;
+                    }
+                }
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning("Internet check failed: " + e.Message);
+        }
+        return false;
+#endif
+    }
+
   }
+
 }
+
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(AdMobManager))]
+public class MyScriptEditor : Editor
+{
+  public override void OnInspectorGUI()
+  {
+    AdMobManager myScript = (AdMobManager)target;
+
+    SerializedProperty property = serializedObject.GetIterator();
+    bool expanded = property.NextVisible(true);
+    if (GUILayout.Button("Set Test Ids"))
+    {
+      myScript.SetTestIds();
+    }
+    while (expanded)
+    {
+
+      if (property.name != "m_Script")
+      {
+        if (property.name == "Banner_AdPosition")
+        {
+          if (myScript.Opt_BannerAd)
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("Banner_AdPosition"));
+        }
+        else if (property.name == "Banner_AdSize")
+        {
+          if (myScript.Opt_BannerAd)
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("Banner_AdSize"));
+        }
+        else if (property.name == "Opt_AutoPopup_InterstitialAd")
+        {
+          if (myScript.OptForAutoPopupAds)
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("Opt_AutoPopup_InterstitialAd"));
+        }
+        else if (property.name == "Opt_AutoPopup_RewardedAd")
+        {
+          if (myScript.OptForAutoPopupAds)
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("Opt_AutoPopup_RewardedAd"));
+        }
+        else if (property.name == "Opt_AutoPopup_RewardedInterstitialAd")
+        {
+          if (myScript.OptForAutoPopupAds)
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("Opt_AutoPopup_RewardedInterstitialAd"));
+        }
+        else if (property.name == "AutoPopup_InterstitialAd_TimeIn")
+        {
+          if (myScript.OptForAutoPopupAds)
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("AutoPopup_InterstitialAd_TimeIn"));
+        }
+        else if (property.name == "AutoPopup_RewardedAd_TimeIn")
+        {
+          if (myScript.OptForAutoPopupAds)
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("AutoPopup_RewardedAd_TimeIn"));
+        }
+        else if (property.name == "AutoPopup_RewardedInterstitialAd_TimeIn")
+        {
+          if (myScript.OptForAutoPopupAds)
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("AutoPopup_RewardedInterstitialAd_TimeIn"));
+        }
+        else
+        {
+          EditorGUILayout.PropertyField(property, true);
+        }
+      }
+
+      expanded = property.NextVisible(false);
+    }
+
+
+    serializedObject.ApplyModifiedProperties();
+  }
+
+}
+#endif
+

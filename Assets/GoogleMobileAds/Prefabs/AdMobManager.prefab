@@ -46,8 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ForceInternetRequired: 0
-  InternetBlockerCanvas: {fileID: 1894427802388908873, guid: ab1dd42b58e73f74e94dd74f9f411e78,
-    type: 3}
   AsModuleEnabled: 1
   IsMobileAds_Initilised: 0
   AndroidAppId: 
@@ -57,25 +55,22 @@ MonoBehaviour:
   RewardedInterstitialId: 
   NativeOverlayId: 
   AppOpenId: 
-  AdMobObserverTickRate: 3
-  Opt_BannerAd: 1
+  Opt_BannerAd: 0
+  Banner_AdPosition: 0
+  Banner_AdSize: 0
   Opt_InterstitialAd: 0
   Opt_RewardedAd: 0
   Opt_RewardedInterstitialAd: 0
   Opt_NativeOverlayAd: 0
   Opt_AppOpenAd: 0
+  OptForAutoPopupAds: 0
   Opt_AutoPopup_InterstitialAd: 0
   Opt_AutoPopup_RewardedAd: 0
   Opt_AutoPopup_RewardedInterstitialAd: 0
   AutoPopup_InterstitialAd_TimeIn: 5
   AutoPopup_RewardedAd_TimeIn: 5
   AutoPopup_RewardedInterstitialAd_TimeIn: 5
-  OnRewardAD_Rewarded:
-    m_PersistentCalls:
-      m_Calls: []
-  OnRewardInterstitialAd_Rewarded:
-    m_PersistentCalls:
-      m_Calls: []
+  _lastReachability: 0
 --- !u!1 &2865648783524344704
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,8 +143,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4771534883521817534}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.6297534}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -158,7 +153,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.0842917, y: -0.8012645}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!223 &2348223947348275338
@@ -241,10 +236,9 @@ MonoBehaviour:
   TitleText: {fileID: 9038408060448013362}
   NoteText: {fileID: 1748765293718435876}
   BlockCanvas: {fileID: 2348223947348275338}
-  BlockPanel: {fileID: 8184402564763283427}
+  BlockPanel: {fileID: 1411787100236577085}
   NotifyRect: {fileID: 0}
   NotifyRectHeight: 0
-  currentReachability: 0
   _lastReachability: 0
   FadeOut: {r: 0, g: 0, b: 0, a: 0}
   FadeIn: {r: 0, g: 0, b: 0, a: 0.46666667}
@@ -323,8 +317,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4290032820
+  m_fontColor: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -341,12 +335,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 40
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
@@ -418,10 +412,10 @@ RectTransform:
   - {fileID: 1353595662274758453}
   m_Father: {fileID: 3090944161884072903}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -200}
-  m_SizeDelta: {x: 0, y: 200}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 240}
+  m_SizeDelta: {x: 1034.82, y: 260}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &7928058993186089108
 CanvasRenderer:
@@ -444,22 +438,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.83137256}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 7624797823574139258, guid: 78904d9f6a2225e4b864c94d5ab5970b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
-  m_UseSpriteMesh: 0
+  m_UseSpriteMesh: 1
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6074190263801044668
 GameObject:
@@ -526,7 +520,7 @@ MonoBehaviour:
     m_Top: 20
     m_Bottom: 20
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 10
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -570,7 +564,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -120, y: -60}
+  m_SizeDelta: {x: -180, y: -80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7078125495364737652
 CanvasRenderer:
@@ -590,7 +584,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3090944161884072903}
   - component: {fileID: 2616477635363490381}
-  - component: {fileID: 8184402564763283427}
+  - component: {fileID: 1411787100236577085}
   m_Layer: 5
   m_Name: BlockerPanel
   m_TagString: Untagged
@@ -626,7 +620,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8034370507521984264}
   m_CullTransparentMesh: 1
---- !u!114 &8184402564763283427
+--- !u!114 &1411787100236577085
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -639,15 +633,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.46666667}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -823,12 +817,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 60
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 60
   m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512

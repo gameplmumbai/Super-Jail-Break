@@ -8,12 +8,13 @@ public class GameOver : MonoBehaviour
 
   public void StartGame()
   {
-    AdMobManager.Instance.ShowInterstitialAd();
     SceneManager.LoadScene("Game");
+    AdMobManager.Instance.ShowInterstitialAd();
   }
 
   public void GoToMenu()
   {
     SceneManager.LoadScene("Menu");
+    AdMobManager.Instance.ShowInterstitialAd();
   }
 }

@@ -31,7 +31,7 @@ public class InternetMoniter : MonoBehaviour
   private Color currentColor;
   private Color startLerpColor;
   private Color endLerpColor;
-  private float elapsedTime = 0f;
+  private float elapsedTime = 1;
   bool isOnline;
   private void Start()
   {
@@ -41,9 +41,24 @@ public class InternetMoniter : MonoBehaviour
     startLerpColor = FadeOut;
     endLerpColor = FadeIn;
     NotifyRectHeight = NotifyRect.rect.height;
+    Validate_InternetReachability();
   }
 
   void Update()
+  {
+    Validate_InternetReachability();
+
+    elapsedTime += Time.deltaTime;
+    float t = Mathf.Clamp01(elapsedTime / transitionDuration);
+
+    isOnline = _lastReachability != NetworkReachability.NotReachable;
+    BlockPanel.color = Color.Lerp(BlockPanel.color, (isOnline ? FadeOut : FadeIn), t);
+
+    NotifyRect.anchoredPosition = new Vector2(NotifyRect.anchoredPosition.x, Mathf.Lerp(NotifyRect.anchoredPosition.y, (isOnline ? -NotifyRectHeight : NotifyRectHeight), t));
+    BlockCanvas.enabled = (BlockPanel.color.a > 0);
+  }
+
+  private void Validate_InternetReachability()
   {
 #if UNITY_EDITOR
     if (_lastReachability != UnityEngine.Device.Application.internetReachability)
@@ -62,16 +77,6 @@ public class InternetMoniter : MonoBehaviour
     }
 #endif
 
-    elapsedTime += Time.deltaTime;
-    float t = Mathf.Clamp01(elapsedTime / transitionDuration);
-
-    isOnline = _lastReachability != NetworkReachability.NotReachable;
-    BlockPanel.color = Color.Lerp(BlockPanel.color, (isOnline ? FadeOut : FadeIn), t);
-
-    NotifyRect.anchoredPosition = new Vector2(NotifyRect.anchoredPosition.x, Mathf.Lerp(NotifyRect.anchoredPosition.y, (isOnline ? NotifyRectHeight : 0), t));
-    BlockCanvas.enabled = (BlockPanel.color.a > 0);
   }
-
-
 
 }

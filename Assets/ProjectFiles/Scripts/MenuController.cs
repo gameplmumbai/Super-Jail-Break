@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using GamesLoki.GoogleMobileAds;
 public class MenuController : MonoBehaviour
 {
     public Text LevelText;
@@ -33,12 +34,15 @@ public class MenuController : MonoBehaviour
         
     }
 
-    public void StartGame() {
+    public void StartGame()
+    {
         SceneManager.LoadScene("Game");
+        AdMobManager.Instance.ShowInterstitialAd();
     }
 
     public void GoToMenu()
     {
         SceneManager.LoadScene("Menu");
+        AdMobManager.Instance.ShowInterstitialAd();
     }
 }
