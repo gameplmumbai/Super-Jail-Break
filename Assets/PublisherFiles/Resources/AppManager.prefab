@@ -1,0 +1,175 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &79278072426416401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5175012699596627814}
+  - component: {fileID: 1150088812828427136}
+  m_Layer: 0
+  m_Name: AppManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5175012699596627814
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79278072426416401}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 540, y: 1128, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8384329397136446572}
+  - {fileID: 3244494980661490355}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1150088812828427136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79278072426416401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79cfd05f3296ca0478b0fc3787bfe364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ForceInternetRequired: 0
+  EnableIAPModule: 0
+  lastOnlineState: 0
+  updateAvailability: 0
+--- !u!1 &2815161333525684360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8384329397136446572}
+  - component: {fileID: 7442288289381999527}
+  m_Layer: 0
+  m_Name: AdsController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8384329397136446572
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2815161333525684360}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5175012699596627814}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7442288289381999527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2815161333525684360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac1d8642d97c3fe41934889e085ee359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _consentController: {fileID: 3669892765897116452}
+  EnableAdMobModule: 1
+  AndroidAppId: 
+  BannerAd_Recurring_PreLoad_Interval_Time: 0
+  InterstatialAd_Recurring_PreLoad_Interval_Time: 0
+  RewardedAd_Recurring_PreLoad_Interval_Time: 0
+  RewardedInterstatialAd_Recurring_PreLoad_Interval_Time: 0
+  NativeOverlayAd_Recurring_PreLoad_Interval_Time: 0
+  AppOpenAd_Recurring_PreLoad_Interval_Time: 0
+  Opt_BannerAd: 0
+  BannerId: 
+  Banner_AdPosition: 0
+  Banner_AdSize: 0
+  Opt_InterstitialAd: 0
+  InterstitialId: 
+  Exclude_InterstitialAd_From_RemoveAd: 0
+  Opt_AutoPopup_InterstitialAd: 0
+  AutoPopup_InterstitialAd_TimeIn: 0
+  Opt_RewardedAd: 0
+  RewardedId: 
+  Exclude_RewardedAd_From_RemoveAd: 0
+  Opt_AutoPopup_RewardedAd: 0
+  AutoPopup_RewardedAd_TimeIn: 0
+  Opt_RewardedInterstitialAd: 0
+  RewardedInterstitialId: 
+  Exclude_RewardedInterstitialAd_From_RemoveAd: 0
+  Opt_AutoPopup_RewardedInterstitialAd: 0
+  AutoPopup_RewardedInterstitialAd_TimeIn: 0
+  Opt_NativeOverlayAd: 0
+  NativeOverlayId: 
+  Opt_AppOpenAd: 0
+  AppOpenId: 
+--- !u!1 &7345818521324099684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3244494980661490355}
+  - component: {fileID: 3669892765897116452}
+  m_Layer: 0
+  m_Name: AdsConsentController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3244494980661490355
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7345818521324099684}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5175012699596627814}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3669892765897116452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7345818521324099684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db76a67cc00119446b0d163fc2f18df6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _privacyButton: {fileID: 0}
+  _errorPopup: {fileID: 0}
+  _errorText: {fileID: 0}

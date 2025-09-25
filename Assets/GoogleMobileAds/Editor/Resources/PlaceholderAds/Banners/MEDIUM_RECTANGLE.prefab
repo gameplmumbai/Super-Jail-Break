@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 223629559242470952}
   - component: {fileID: 114983991128439442}
   - component: {fileID: 114372880593303924}
-  - component: {fileID: 7565041552370054721}
+  - component: {fileID: 3616634733347889022}
   m_Layer: 5
   m_Name: MEDIUM_RECTANGLE
   m_TagString: Untagged
@@ -61,7 +61,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10000
   m_TargetDisplay: 0
 --- !u!114 &114983991128439442
 MonoBehaviour:
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!114 &7565041552370054721
+--- !u!114 &3616634733347889022
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1512588571484440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73c42049a04f0604ca55ddcb04aef546, type: 3}
+  m_Script: {fileID: 11500000, guid: 9966f47d83b5f8a49912bd49949fe996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1995456870296158

@@ -1,5 +1,5 @@
 ﻿using BeautifulTransitions.Scripts.Transitions.Components.GameObject;
-using GamesLoki.GoogleMobileAds;
+using GoogleMobileAds.Samples;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
 
   void DelayShowInterstitialAd()
   {
-    AdMobManager.Instance.ShowInterstitialAd();
+    AdsController.Instance.ShowInterstitialAd();
 
   }
 
@@ -102,8 +102,8 @@ public class GameManager : MonoBehaviour
       //GameWinUI.SetActive(true);
       SceneManager.LoadScene("GameWin");
       isGameEnd = true;
-      //AdsManager.Instance.ShowInterstitialAd();
-      AdMobManager.Instance.ShowInterstitialAd();
+            //AdsManager.Instance.ShowInterstitialAd();
+            AdsController.Instance.ShowInterstitialAd();
 
     }
   }

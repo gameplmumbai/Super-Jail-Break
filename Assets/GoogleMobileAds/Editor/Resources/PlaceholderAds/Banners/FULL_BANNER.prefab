@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 223952169128518932}
   - component: {fileID: 114696334858063158}
   - component: {fileID: 114239890049580038}
-  - component: {fileID: 2847719412175112962}
+  - component: {fileID: -8328337716357336939}
   m_Layer: 5
   m_Name: FULL_BANNER
   m_TagString: Untagged
@@ -181,7 +181,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 32767
+  m_SortingOrder: 10000
   m_TargetDisplay: 0
 --- !u!114 &114696334858063158
 MonoBehaviour:
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!114 &2847719412175112962
+--- !u!114 &-8328337716357336939
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,6 +232,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1693671887655770}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73c42049a04f0604ca55ddcb04aef546, type: 3}
+  m_Script: {fileID: 11500000, guid: 9966f47d83b5f8a49912bd49949fe996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

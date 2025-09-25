@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 223611447948025624}
   - component: {fileID: 114814154768417776}
   - component: {fileID: 114782070117714080}
-  - component: {fileID: 160480202384743309}
+  - component: {fileID: -9060211835106640302}
   m_Layer: 5
   m_Name: ADAPTIVE
   m_TagString: Untagged
@@ -61,7 +61,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 32767
   m_TargetDisplay: 0
 --- !u!114 &114814154768417776
 MonoBehaviour:
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!114 &160480202384743309
+--- !u!114 &-9060211835106640302
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1269133880751524}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73c42049a04f0604ca55ddcb04aef546, type: 3}
+  m_Script: {fileID: 11500000, guid: 9966f47d83b5f8a49912bd49949fe996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1399486727572022

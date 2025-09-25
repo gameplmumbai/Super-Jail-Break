@@ -920,14 +920,14 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1971361800}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -160}
-  m_SizeDelta: {x: 0, y: 550}
+  m_SizeDelta: {x: -200, y: 550}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &631791033
 MonoBehaviour:
@@ -2592,7 +2592,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 230}
+  m_AnchoredPosition: {x: 0, y: 260}
   m_SizeDelta: {x: -100, y: 160.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1452577696
@@ -3254,6 +3254,143 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624392995}
   m_CullTransparentMesh: 0
+--- !u!1001 &1626073344
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 79278072426416401, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: m_Name
+      value: AppManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1150088812828427136, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: ForceInternetRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175012699596627814, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.41912
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175012699596627814, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.26218
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175012699596627814, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.04386
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175012699596627814, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175012699596627814, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175012699596627814, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175012699596627814, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175012699596627814, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175012699596627814, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175012699596627814, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: BannerId
+      value: ca-app-pub-7637572513025322/5131818774
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: AppOpenId
+      value: ca-app-pub-7637572513025322/5701281521
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: RewardedId
+      value: ca-app-pub-7637572513025322/5204821021
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: AndroidAppId
+      value: ca-app-pub-7637572513025322~6528660925
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: Opt_BannerAd
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: Banner_AdSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: Opt_AppOpenAd
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: InterstitialId
+      value: ca-app-pub-7637572513025322/3818737102
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: Opt_RewardedAd
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: NativeOverlayId
+      value: ca-app-pub-3940256099942544/2247696110
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: Banner_AdPosition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: Opt_InterstitialAd
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: RewardedInterstitialId
+      value: ca-app-pub-3940256099942544/5354046379
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: BannerAd_Recurring_PreLoad_Interval_Time
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: AppOpenAd_Recurring_PreLoad_Interval_Time
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: RewardedAd_Recurring_PreLoad_Interval_Time
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: InterstatialAd_Recurring_PreLoad_Interval_Time
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: NativeOverlayAd_Recurring_PreLoad_Interval_Time
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442288289381999527, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
+      propertyPath: RewardedInterstatialAd_Recurring_PreLoad_Interval_Time
+      value: 15
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 48cbca9463c9c67449b0a68964e7b136, type: 3}
 --- !u!1001 &1659060088
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4475,143 +4612,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4245781815190936, guid: 148b2b1982dbbd24db7cc282f912bf40, type: 3}
   m_PrefabInstance: {fileID: 1939953455}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &48963271299614363
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1717072260974814816, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.0842917
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717072260974814816, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.8012645
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717072260974814816, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.6297534
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717072260974814816, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717072260974814816, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717072260974814816, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717072260974814816, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717072260974814816, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717072260974814816, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717072260974814816, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1736079560342512528, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_Name
-      value: AdManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: BannerId
-      value: ca-app-pub-7637572513025322/5131818774
-      objectReference: {fileID: 0}
-    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: AppOpenId
-      value: ca-app-pub-7637572513025322/5701281521
-      objectReference: {fileID: 0}
-    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: RewardedId
-      value: ca-app-pub-7637572513025322/5204821021
-      objectReference: {fileID: 0}
-    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: AndroidAppId
-      value: ca-app-pub-7637572513025322~6528660925
-      objectReference: {fileID: 0}
-    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: Opt_AppOpenAd
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: InterstitialId
-      value: ca-app-pub-7637572513025322/3818737102
-      objectReference: {fileID: 0}
-    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: Opt_RewardedAd
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: Opt_InterstitialAd
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: ForceInternetRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2304854445832390692, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: RewardedInterstitialId
-      value: ca-app-pub-7637572513025322/1457147703
-      objectReference: {fileID: 0}
-    - target: {fileID: 5642671719499560436, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5642671719499560436, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5642671719499560436, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5642671719499560436, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5642671719499560436, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5652326918775278322, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5652326918775278322, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5652326918775278322, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5652326918775278322, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5652326918775278322, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3b9f4505410f7c642a50a4caa8e2d947, type: 3}
 --- !u!1001 &7742126046845896770
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4684,5 +4684,5 @@ SceneRoots:
   - {fileID: 654415647}
   - {fileID: 1570439008}
   - {fileID: 73688262}
-  - {fileID: 48963271299614363}
   - {fileID: 7742126046845896770}
+  - {fileID: 1626073344}
